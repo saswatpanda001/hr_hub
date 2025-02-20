@@ -1,0 +1,48 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<body class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 ">
+{% include 'nav.html' %}
+<section class="min-h-screen flex justify-center items-center p-6">
+    <div class="bg-white p-6 shadow-lg rounded-lg max-w-5xl w-full">
+        <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">📄 My Job Applications</h1>
+
+        {% for application in applications %}
+    
+        <div class="bg-white p-5 shadow-md rounded-lg border-l-4 border-blue-500 hover:shadow-xl transition duration-300 mb-4">
+            <h2 class="text-xl font-semibold text-gray-800">👤 {{ application.applicant.user.username }}</h2>
+            <p class="text-gray-600">📌 Applied for: <span class="font-medium">{{ application.job.title }}</span></p>
+            <p class="text-gray-600">📅 Applied on: <span class="font-medium">{{ application.applied_date|date:"F d, Y" }}</span></p>
+            <p class="text-gray-600">📍 Location: <span class="font-medium">{{ application.city }}, {{ application.state }}, {{ application.country }}</span></p>
+            <p class="text-gray-600">💼 Status: 
+                <span class="{% if application.status == 'Pending' %} text-yellow-500 {% elif application.status == 'Shortlisted' %} text-blue-500 {% elif application.status == 'Rejected' %} text-red-500 {% else %} text-green-500 {% endif %} font-bold">
+                    {{ application.status }}
+                </span>
+            </p>
+            <p class="text-gray-600">📧 Email: <span class="font-medium">{{ application.email }}</span></p>
+            <p class="text-gray-600">📞 Phone: <span class="font-medium">{{ application.phone }}</span></p>
+            
+            <div class="flex gap-4 mt-4">
+                {% if application.resume %}
+                <a href="{{ application.resume.url }}" target="_blank" class="px-4 py-2 bg-blue-600 text-white font-bold rounded-lg shadow hover:bg-blue-700 transition">
+                    📂 View Resume
+                </a>
+                {% endif %}
+                <a href="{{ application.linkedin_url }}" target="_blank" class="px-4 py-2 bg-gray-800 text-white font-bold rounded-lg shadow hover:bg-gray-900 transition">
+                    🔗 LinkedIn
+                </a>
+                <a href="{{ application.github_url }}" target="_blank" class="px-4 py-2 bg-black text-white font-bold rounded-lg shadow hover:bg-gray-900 transition">
+                    💻 GitHub
+                </a>
+            </div>
+        </div>
+
+        {% empty %}
+        <p class="text-center text-white text-xl">No Applicants for this job</p>
+        {% endfor %}
+    </div>
+</section>
+</body>
+{% endblock %}
+</html>

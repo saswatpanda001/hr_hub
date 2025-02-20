@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<body class="bg-gradient-to-r from-blue-500 to-purple-600 min-h-screen flex items-center justify-center">
+    
+
+    <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-3xl">
+        <h2 class="text-4xl font-bold text-gray-700 text-center mb-10">Login Dashboard</h2>
+
+        <div class="grid grid-cols-2 gap-6">
+            <!-- Candidate Login -->
+            <a href="{% url 'hub:candidate_login' %}" class="group block bg-blue-500 hover:bg-blue-600 text-white text-center py-4 rounded-lg transition duration-300 shadow-md">
+                <span class="text-lg font-semibold">Candidate</span>
+                <div class="opacity-0 group-hover:opacity-100 text-sm mt-2 transition">Find and Apply for Jobs</div>
+            </a>
+
+            <!-- Employee Login -->
+            <a href="{% url 'hub:employee_login' %}" class="group block bg-green-500 hover:bg-green-600 text-white text-center py-4 rounded-lg transition duration-300 shadow-md">
+                <span class="text-lg font-semibold">Employee</span>
+                <div class="opacity-0 group-hover:opacity-100 text-sm mt-2 transition">Access Work Tools</div>
+            </a>
+
+            <!-- HR Manager Login -->
+            <a href="{% url 'hub:hrmanager_login' %}" class="group block bg-yellow-500 hover:bg-yellow-600 text-white text-center py-4 rounded-lg transition duration-300 shadow-md">
+                <span class="text-lg font-semibold">HR Manager</span>
+                <div class="opacity-0 group-hover:opacity-100 text-sm mt-2 transition">Manage Hiring & Employees</div>
+            </a>
+
+            <!-- Admin Login -->
+            <a href="/admin" class="group block bg-red-500 hover:bg-red-600 text-white text-center py-4 rounded-lg transition duration-300 shadow-md">
+                <span class="text-lg font-semibold">Admin</span>
+                <div class="opacity-0 group-hover:opacity-100 text-sm mt-2 transition">Full System Control</div>
+            </a>
+        </div>
+
+        <p class="text-center text-gray-500 mt-6">New here? <a href="/accounts/signup" class="text-blue-600 hover:underline">Create an account</a></p>
+    </div>
+
+</body>
+{% endblock %}

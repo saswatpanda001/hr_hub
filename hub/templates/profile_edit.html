@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+<body class="bg-gradient-to-r from-blue-400 to-purple-500">
+    {% include 'nav.html' %}
+<div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8 mt-10">
+    
+    <h2 class="text-3xl font-semibold text-gray-800 text-center mb-6">Edit Profile</h2>
+
+    <form method="POST" enctype="multipart/form-data" class="space-y-6">
+        {% csrf_token %}
+
+        <!-- Profile Picture -->
+        <div class="flex items-center space-x-4">
+            <img src="{{ form.instance.profile_picture.url }}" alt="Profile Picture" class="w-24 h-24 rounded-full border">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Profile Picture</label>
+                <input type="file" name="profile_picture" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            </div>
+        </div>
+
+        <!-- Role -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Role</label>
+            <select name="role" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                {% for value, label in form.role.field.choices %}
+                    <option value="{{ value }}" {% if form.instance.role == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Phone -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Phone</label>
+            <input type="text" name="phone" value="{{ form.instance.phone }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+        </div>
+
+        <!-- Address -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Address</label>
+            <textarea name="address" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ form.instance.address }}</textarea>
+        </div>
+
+        <!-- City, State, Country -->
+        <div class="grid grid-cols-3 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">City</label>
+                <input type="text" name="city" value="{{ form.instance.city }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">State</label>
+                <input type="text" name="state" value="{{ form.instance.state }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Country</label>
+                <input type="text" name="country" value="{{ form.instance.country }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            </div>
+        </div>
+
+        <!-- LinkedIn & GitHub -->
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">LinkedIn</label>
+                <input type="url" name="linkedin_url" value="{{ form.instance.linkedin_url }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">GitHub</label>
+                <input type="url" name="github_url" value="{{ form.instance.github_url }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            </div>
+        </div>
+
+        <!-- Bio -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Bio</label>
+            <textarea name="bio" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ form.instance.bio }}</textarea>
+        </div>
+
+        <!-- Date of Birth -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Date of Birth</label>
+            <input type="date" name="date_of_birth" value="{{ form.instance.date_of_birth|date:'Y-m-d' }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+            <button type="submit" class="px-6 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-md hover:bg-indigo-700">Save Changes</button>
+        </div>
+    </form>
+</div>
+</body>
+
+{% endblock %}

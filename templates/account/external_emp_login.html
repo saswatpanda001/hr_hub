@@ -1,0 +1,43 @@
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Login</title>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center min-h-screen">
+
+  <!-- Login Form Container -->
+  <div class="bg-white p-8 rounded-lg shadow-xl max-w-sm w-full">
+    <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Candidate Login</h2>
+
+    <form method="POST" action="{% url 'hub:candidate_login' %}" class="space-y-4">
+      {% csrf_token %}
+      {{ form|crispy }}
+
+      {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+
+      <div>
+        <button type="submit" class="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition text-2xl">
+          {% trans "Sign In" %}
+        </button>
+      </div>
+    </form>
+
+    <div class="text-center mt-4">
+      <a href="/accounts/password/reset" class="text-teal-500 hover:underline">Forgot Password?</a>
+      <p class="text-sm text-gray-600 mt-4">
+        New Employee? <a href="/accounts/signup" class="text-blue-600 hover:underline">Sign up here</a>.
+      </p>
+    </div>
+  </div>
+
+</body>
+</html>

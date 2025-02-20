@@ -1,0 +1,62 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<body class="bg-gradient-to-r from-blue-400 to-purple-600">
+    {% include 'nav.html'%}
+
+    <!-- Back Button -->
+    <div class="max-w-4xl mx-auto mt-6">
+        <a href="{% url 'hub:jobs' %}" class="text-white hover:underline">&larr; Back to Jobs</a>
+    </div>
+
+    <!-- Job Details -->
+    <div class="max-w-4xl mx-auto bg-white p-6 mt-6 rounded-lg shadow-md">
+        <h1 class="text-3xl font-bold text-gray-800">{{ job.title }}</h1>
+        <p class="text-gray-600 mt-4">Location: <span class="font-semibold">{{ job.location }}</span></p>
+        <p class="text-gray-600 my-1">Salary: <span class="font-semibold">${{ job.salary }}</span></p>
+        <p class="text-gray-600 my-1">Status: <span class="px-2 py-1 text-white rounded-md {% if job.status == 'Open' %}bg-green-500{% else %}bg-red-500{% endif %}">{{ job.status }}</span></p>
+        
+        <hr class="my-4">
+        
+        <h2 class="text-xl font-semibold text-gray-800">Job Description</h2>
+        <p class="text-gray-700 mt-2">{{ job.description }}</p>
+
+        <hr class="my-4">
+        
+        <h2 class="text-xl font-semibold text-gray-800">Required Skills</h2>
+        <ul class="list-disc pl-6 mt-2 text-gray-700">
+            {% for skill in job.skills.all %}
+                <li class="my-1">{{ skill.name }}</li>
+            {% empty %}
+                <li>No skills specified.</li>
+            {% endfor %}
+        </ul>
+
+        <hr class="my-4">
+        
+        <h2 class="text-xl font-semibold text-gray-800">Qualifications</h2>
+        <ul class="list-disc pl-6 mt-2 text-gray-700">
+            {% for qualification in job.qualifications.all %}
+                <li class="my-1">{{ qualification.name }}</li>
+            {% empty %}
+                <li>No qualifications specified.</li>
+            {% endfor %}
+        </ul>
+
+        <div class="mt-6 flex space-x-4">
+            {% if user.last_name == "HR"%}
+            <a href="{% url 'hub:job-edit' job.id %}" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Edit</a>
+            <a href="{% url 'hub:applications' job.id %}" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">See Applicants</a>
+            {% elif user.last_name == "Employee" or user.last_name == "Candidate" %}
+            {% if job.status == "Open"%}
+            <a href="{% url 'hub:apply' job.id %}" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Apply</a>
+            {% endif %}
+            {% endif%}
+            <a href="{% url 'hub:jobs' %}" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">Back</a>
+        </div>
+    </div>
+
+</body>
+{% endblock %}

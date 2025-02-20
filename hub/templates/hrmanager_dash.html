@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-blue-400 to-purple-600">
+    {% include 'nav.html' %}
+    <!-- Container -->
+    <div class="max-w-7xl mx-auto p-6">
+        <h2 class="text-3xl font-bold text-gray-800 text-center mb-6">HR Dashboard - Manpower Planning</h2>
+
+        <!-- Overview Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-6 rounded-lg shadow-md text-center">
+                <h3 class="text-2xl font-bold">Total Employees</h3>
+                <p class="text-4xl font-semibold mt-2">1,200</p>
+            </div>
+            <div class="bg-gradient-to-r from-green-400 to-teal-500 text-white p-6 rounded-lg shadow-md text-center">
+                <h3 class="text-2xl font-bold">Open Positions</h3>
+                <p class="text-4xl font-semibold mt-2">35</p>
+            </div>
+            <div class="bg-gradient-to-r from-red-400 to-pink-500 text-white p-6 rounded-lg shadow-md text-center">
+                <h3 class="text-2xl font-bold">Turnover Rate</h3>
+                <p class="text-4xl font-semibold mt-2">12%</p>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold text-gray-800">Employee Count by Department</h3>
+                <canvas id="deptChart"></canvas>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold text-gray-800">Hiring vs. Attrition Trends</h3>
+                <canvas id="hiringChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Job Openings Table -->
+        <div class="bg-white p-6 rounded-lg shadow-md mt-6">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Recent Job Openings</h3>
+            <table class="w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr class="bg-blue-500 text-white">
+                        <th class="p-3 border">Job Title</th>
+                        <th class="p-3 border">Department</th>
+                        <th class="p-3 border">Status</th>
+                        <th class="p-3 border">Posted Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-gray-700">
+                        <td class="p-3 border">Software Engineer</td>
+                        <td class="p-3 border">IT</td>
+                        <td class="p-3 border text-green-500 font-bold">Open</td>
+                        <td class="p-3 border">Feb 15, 2025</td>
+                    </tr>
+                    <tr class="text-gray-700 bg-gray-100">
+                        <td class="p-3 border">HR Manager</td>
+                        <td class="p-3 border">Human Resources</td>
+                        <td class="p-3 border text-red-500 font-bold">Closed</td>
+                        <td class="p-3 border">Jan 28, 2025</td>
+                    </tr>
+                    <tr class="text-gray-700">
+                        <td class="p-3 border">Accountant</td>
+                        <td class="p-3 border">Finance</td>
+                        <td class="p-3 border text-green-500 font-bold">Open</td>
+                        <td class="p-3 border">Feb 10, 2025</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Chart.js Scripts -->
+    <script>
+        // Department-wise Employee Count Chart
+        var ctx1 = document.getElementById('deptChart').getContext('2d');
+        var deptChart = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['IT', 'HR', 'Finance', 'Sales', 'Marketing'],
+                datasets: [{
+                    label: 'Employees',
+                    data: [250, 100, 150, 200, 120],
+                    backgroundColor: ['#3b82f6', '#10b981', '#ef4444', '#f59e0b', '#8b5cf6']
+                }]
+            }
+        });
+
+        // Hiring vs. Attrition Trends Chart
+        var ctx2 = document.getElementById('hiringChart').getContext('2d');
+        var hiringChart = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [
+                    {
+                        label: 'Hired',
+                        data: [10, 25, 30, 45, 50, 60],
+                        borderColor: '#3b82f6',
+                        borderWidth: 2,
+                        fill: false
+                    },
+                    {
+                        label: 'Attrition',
+                        data: [5, 10, 15, 20, 25, 30],
+                        borderColor: '#ef4444',
+                        borderWidth: 2,
+                        fill: false
+                    }
+                ]
+            }
+        });
+    </script>
+
+</body>
+</html>

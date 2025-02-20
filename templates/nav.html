@@ -1,0 +1,67 @@
+<nav class="bg-white text-black shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center">
+        
+        <!-- Logo -->
+        <a href="{% url 'hub:dashboard_redirect' %}" class="text-black text-2xl font-bold">RecruitEase</a>
+  
+        <!-- Navigation Links -->
+        <div class="hidden md:flex space-x-6">
+
+          <a href="{% url 'hub:profile' %}" class="text-black hover:text-blue-800 transition">Profile</a>
+          <a href="{% url 'hub:jobs' %}" class="text-black hover:text-blue-800 transition">Jobs</a>
+        
+          {% if user.last_name == "HR" %}
+          <a href="{% url 'hub:job-create' %}" class="text-black hover:text-blue-800 transition">Create Job</a>
+          <a href="{% url 'hub:shortlisted' %}" class="text-black hover:text-blue-800 transition">Shortlisted</a>
+          
+          {% endif %}
+
+          {% if user.last_name == "Employee"  or user.last_name == "HR"%}
+          <a href="{% url 'hub:notifications' %}" class="text-black hover:text-blue-800 transition">Notifications</a>
+          {% endif %}
+
+         
+          <a href="{% url 'hub:my_applications' %}" class="text-black hover:text-blue-800 transition">My Applications</a>
+         
+        
+        </div>
+        {% if user.is_authenticated %}
+        <div class="hidden md:block">
+            <a href="/accounts/login" class="bg-white text-blue-600 px-4 py-3 mx-3 rounded-lg shadow-md hover:bg-gray-200 transition">Hi {{user.username}}</a>
+            <a href="/accounts/logout" class="bg-white text-blue-600 px-4 py-3 mx-3 rounded-lg shadow-md hover:bg-gray-200 transition">Logout</a>
+          </div>
+        {%else%}
+        <div class="hidden md:block">
+            <a href="/accounts/login" class="bg-black text-blue-600 px-4 py-2 mx-3 rounded-lg shadow-md hover:bg-gray-200 transition">Sign Up</a>
+            <a href="{% url 'hub:login_dashboard' %}" class="bg-white text-blue-600 px-4 py-2 mx-3 rounded-lg shadow-md hover:bg-gray-200 transition">Login</a>
+          </div>
+        {% endif %}
+
+        <!-- Mobile Menu Button -->
+        <button id="menu-toggle" class="md:hidden text-black focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-blue-700">
+      <a href="#" class="block px-4 py-2 text-black hover:bg-blue-800">Home</a>
+      <a href="#" class="block px-4 py-2 text-black hover:bg-blue-800">Jobs</a>
+      <a href="#" class="block px-4 py-2 text-black hover:bg-blue-800">About</a>
+      <a href="#" class="block px-4 py-2 text-black hover:bg-blue-800">Contact</a>
+      <a href="#" class="block px-4 py-2 text-black hover:bg-blue-800">Sign Up</a>
+    </div>
+  
+    <script>
+      const menuToggle = document.getElementById('menu-toggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+      
+      menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+    </script>
+  </nav>

@@ -1,0 +1,63 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<body class="bg-gradient-to-r from-blue-400 to-purple-600">
+    {% include 'nav.html'%}
+
+    <div class="max-w-3xl mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Create a New Job</h2>
+
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            
+            <div>
+                <label for="id_title" class="block text-sm font-medium text-gray-700">Job Title</label>
+                {{ form.title }}
+            </div>
+
+            <div>
+                <label for="id_description" class="block text-sm font-medium text-gray-700">Job Description</label>
+                {{ form.description }}
+            </div>
+
+            <div>
+                <label for="id_salary" class="block text-sm font-medium text-gray-700">Salary</label>
+                {{ form.salary }}
+            </div>
+
+            <div>
+                <label for="id_location" class="block text-sm font-medium text-gray-700">Location</label>
+                {{ form.location }}
+            </div>
+
+            <div>
+                <label for="id_status" class="block text-sm font-medium text-gray-700">Job Status</label>
+                {{ form.status }}
+            </div>
+
+            <div>
+                <label for="id_type" class="block text-sm font-medium text-gray-700">Job Type</label>
+                {{ form.type }}
+            </div>
+
+            <div>
+                <label for="id_qualifications" class="block text-sm font-medium text-gray-700">Qualifications</label>
+                {{ form.qualifications }}
+            </div>
+
+            <div>
+                <label for="id_skills" class="block text-sm font-medium text-gray-700">Skills Required</label>
+                {{ form.skills }}
+            </div>
+
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">
+                Create Job
+            </button>
+        </form>
+    </div>
+
+</body>
+{% endblock %}
+

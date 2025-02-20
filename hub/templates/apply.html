@@ -1,0 +1,140 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<body class="bg-gradient-to-r from-blue-400 to-purple-600">
+{% include 'nav.html' %}
+<section class="p-8">
+
+
+    <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6">
+        <h2 class="text-2xl font-bold text-center text-blue-600 mb-6">Job Application Form</h2>
+
+        <form action="" method="POST" enctype="multipart/form-data" class="space-y-4">
+            {% csrf_token %}
+
+            <!-- Select Job -->
+           
+            <!-- Select Skills -->
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2">Select Skills</label>
+                <select name="skills" multiple required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    {% for skill in skills %}
+                        <option value="{{ skill.id }}">{{ skill.name }}</option>
+                    {% endfor %}
+                </select>
+                <p class="text-sm text-gray-500 mt-1">Hold Ctrl (Windows) or Command (Mac) to select multiple skills.</p>
+            </div>
+
+            <!-- Select Qualifications -->
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2">Select Qualifications</label>
+                <select name="qualifications" multiple required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    {% for qualification in qualifications %}
+                        <option value="{{ qualification.id }}">{{ qualification.name }}</option>
+                    {% endfor %}
+                </select>
+                <p class="text-sm text-gray-500 mt-1">Hold Ctrl (Windows) or Command (Mac) to select multiple qualifications.</p>
+            </div>
+
+
+
+            <!-- Work History -->
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2">Work History</label>
+                <textarea name="work_history" rows="3" required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
+            </div>
+
+            <!-- Expected Salary -->
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2">Expected Salary ($)</label>
+                <input type="number" name="expected_salary" placeholder="Enter expected salary"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </div>
+
+            <!-- Resume Upload -->
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2">Upload Resume</label>
+                <input type="file" name="resume"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </div>
+
+            <!-- Address -->
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2">Address</label>
+                <textarea name="address" rows="2"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
+            </div>
+
+            <!-- City, State, Country -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">City</label>
+                    <input type="text" name="city" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">State</label>
+                    <input type="text" name="state" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Country</label>
+                    <input type="text" name="country" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Phone</label>
+                    <input type="number" name="phone" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Email</label>
+                    <input type="text" name="email" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Age</label>
+                    <input type="number" name="age" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+                
+            </div>
+
+            <!-- LinkedIn & GitHub -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">LinkedIn URL</label>
+                    <input type="url" name="linkedin_url" placeholder="https://linkedin.com/in/your-profile"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">GitHub URL</label> 
+                    <input type="url" name="github_url" placeholder="https://github.com/your-profile" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+            </div>
+
+            <!-- Bio -->
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2">Short Bio</label>
+                <textarea name="bio" rows="3" required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center">
+                <button type="submit"
+                    class="bg-blue-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-blue-700 transition">
+                    Submit Application
+                </button>
+            </div>
+
+        </form>
+    </div>
+</section>
+</body>
+{% endblock %}
