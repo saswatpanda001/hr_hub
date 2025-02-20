@@ -3,68 +3,80 @@
 
 <body class="bg-gradient-to-r from-blue-400 to-purple-600 min-h-screen">
     {% include "nav.html" %}
-<section class="flex justify-center items-center my-8"">
-
-    <div class="w-full max-w-4xl bg-white shadow-lg rounded-lg p-6">
-        <!-- Profile Header -->
-        <div class="flex items-center space-x-6">
-            <img src="{{profile.profile_picture.url}}" alt="Profile Picture" class="w-32 h-32 rounded-full border-4 border-blue-500">
-            <div>
-                <h2 class="text-2xl font-bold text-gray-700">{{profile.user.username}}</h2>
-                <p class="text-gray-500 text-lg">🚀 {{profile.role}} | Software Developer</p>
-                <div class="mt-2 flex space-x-4">
-                    <a href="#" class="text-blue-500 text-lg hover:text-blue-600">🔗 LinkedIn</a>
-                    <a href="#" class="text-gray-700 text-lg hover:text-black">🐙 GitHub</a>
+    <section class="flex justify-center items-center my-8">
+        <div class="w-full max-w-4xl bg-white shadow-lg rounded-lg p-6">
+            
+            <!-- Profile Header -->
+            <div class="flex items-center space-x-6">
+                <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="w-32 h-32 rounded-full border-4 border-blue-500">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-700">{{ profile.user.username }}</h2>
+                    <p class="text-gray-500 text-lg">🚀 {{ profile.get_role_display }}</p>
+                    <div class="mt-2 flex space-x-4">
+                        {% if profile.linkedin_url %}
+                            <a href="{{ profile.linkedin_url }}" class="text-blue-500 text-lg hover:text-blue-600" target="_blank">🔗 LinkedIn</a>
+                        {% endif %}
+                        {% if profile.github_url %}
+                            <a href="{{ profile.github_url }}" class="text-gray-700 text-lg hover:text-black" target="_blank">🐙 GitHub</a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Profile Details -->
-        <div class="mt-6 grid grid-cols-2 gap-6">
-            <div class="bg-blue-100 p-4 rounded-lg shadow-md">
-                <h3 class="text-lg font-semibold text-gray-700">📞 Contact</h3>
-                <p class="text-gray-600">+91 9876543210</p>
-                <p class="text-gray-600">johndoe@gmail.com</p>
+            <!-- Profile Details -->
+            <div class="mt-6 grid grid-cols-2 gap-6">
+                {% if profile.phone %}
+                    <div class="bg-blue-100 p-4 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold text-gray-700">📞 Contact</h3>
+                        <p class="text-gray-600">{{ profile.phone }}</p>
+                    </div>
+                {% endif %}
+                {% if profile.city or profile.state or profile.country %}
+                    <div class="bg-green-100 p-4 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold text-gray-700">📍 Location</h3>
+                        <p class="text-gray-600">{{ profile.city }}, {{ profile.state }}, {{ profile.country }}</p>
+                    </div>
+                {% endif %}
+                {% if profile.qualifications.all %}
+                    <div class="bg-yellow-100 p-4 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold text-gray-700">🎓 Qualifications</h3>
+                        <ul class="text-gray-600 list-disc ml-5">
+                            {% for qualification in profile.qualifications.all %}
+                                <li>{{ qualification }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                {% if profile.skills.all %}
+                    <div class="bg-pink-100 p-4 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold text-gray-700">🛠 Skills</h3>
+                        <ul class="text-gray-600 list-disc ml-5">
+                            {% for skill in profile.skills.all %}
+                                <li>{{ skill }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
             </div>
-            <div class="bg-green-100 p-4 rounded-lg shadow-md">
-                <h3 class="text-lg font-semibold text-gray-700">📍 Location</h3>
-                <p class="text-gray-600">Bangalore, India</p>
-            </div>
-            <div class="bg-yellow-100 p-4 rounded-lg shadow-md">
-                <h3 class="text-lg font-semibold text-gray-700">🎓 Qualifications</h3>
-                <ul class="text-gray-600 list-disc ml-5">
-                    <li>B.Tech in Computer Science</li>
-                    <li>M.Sc in AI & ML</li>
-                </ul>
-            </div>
-            <div class="bg-pink-100 p-4 rounded-lg shadow-md">
-                <h3 class="text-lg font-semibold text-gray-700">🛠 Skills</h3>
-                <ul class="text-gray-600 list-disc ml-5">
-                    <li>Python, Django</li>
-                    <li>React, Tailwind CSS</li>
-                </ul>
-            </div>
-        </div>
 
-        <!-- Bio -->
-        <div class="mt-6 bg-gray-100 p-6 rounded-lg shadow-md">
-            <h3 class="text-lg font-semibold text-gray-700">💡 Bio</h3>
-            <p class="text-gray-600 mt-2">
-                Passionate full-stack developer with experience in building scalable web applications.
-                Always eager to learn and take on new challenges!
-            </p>
-        </div>
+            <!-- Bio -->
+            {% if profile.bio %}
+                <div class="mt-6 bg-gray-100 p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-700">💡 Bio</h3>
+                    <p class="text-gray-600 mt-2">{{ profile.bio }}</p>
+                </div>
+            {% endif %}
 
-        <!-- Edit Profile Button -->
-        <div class="mt-6 flex justify-center">
-            <a href="{% url 'hub:edit_profile' %}">
-            <button class="px-6 py-3 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 transition">
-                ✏️ Edit Profile
-            </button>
-            </a>
+            <!-- Edit Profile Button -->
+            <div class="mt-6 flex justify-center">
+                <a href="{% url 'hub:edit_profile' %}">
+                    <button class="px-6 py-3 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 transition">
+                        ✏️ Edit Profile
+                    </button>
+                </a>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 </body>
 
 {% endblock %}
