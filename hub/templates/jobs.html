@@ -8,58 +8,47 @@
 
         <!-- Search Bar -->
         <div class="flex justify-center mb-6">
-            <input  type="text" id="searchInput" onkeyup="searchJobs()" placeholder="Search jobs by title..." 
+            <input type="text" id="searchInput" onkeyup="searchJobs()" placeholder="Search jobs by title..." 
                 class="w-1/2 p-3 bg-white border-gray-300 rounded-lg shadow-md focus:ring-2 focus:ring-blue-400">
         </div>
 
         <!-- Job Listings -->
-        
         <div id="jobsContainer" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {% if user.last_name == "Employee" %}
-                
-
                 {% for job in jobs %}
                     {% if job.type == "internal" %}
-                    <a href="{% url 'hub:job-detail' job.id %}">
-                        <div class="bg-white p-6 rounded-lg shadow-lg border-l-8 {% if job.status == 'Open' %}border-green-500{% else %}border-red-500{% endif %}">
-                            <h2 class="text-2xl font-semibold text-gray-800">{{ job.title }}</h2>
-                            <p class="text-gray-600 mt-2">{{ job.description }}</p>
-                            <p class="mt-2"><strong>Salary:</strong> ₹{{ job.salary }}</p>
-                            <p class="mt-1"><strong>Location:</strong> {{ job.location }}</p>
-                            <p class="mt-1"><strong>Status:</strong> 
-                                <span class="{% if job.status == 'Open' %}text-green-600{% else %}text-red-600{% endif %}">{{ job.status }}</span>
-                            </p>
-                        </div>
-                    </a>
-                   
+                        <a href="{% url 'hub:job-detail' job.id %}" class="job-item">
+                            <div class="bg-white p-6 rounded-lg shadow-lg border-l-8 {% if job.status == 'Open' %}border-green-500{% else %}border-red-500{% endif %}">
+                                <h2 class="text-2xl font-semibold text-gray-800">{{ job.title }}</h2>
+                                <p class="text-gray-600 mt-2">{{ job.description }}</p>
+                                <p class="mt-2"><strong>Salary:</strong> ₹{{ job.salary }}</p>
+                                <p class="mt-1"><strong>Location:</strong> {{ job.location }}</p>
+                                <p class="mt-1"><strong>Status:</strong> 
+                                    <span class="{% if job.status == 'Open' %}text-green-600{% else %}text-red-600{% endif %}">{{ job.status }}</span>
+                                </p>
+                            </div>
+                        </a>
                     {% endif %}
-                
                 {% endfor %}
-
             {% elif user.last_name == "Candidate" %}
-
-            {% for job in jobs %}
-                {% if job.type == "external" %}
-                    <a href="{% url 'hub:job-detail' job.id %}">
-                        <div class="bg-white p-6 rounded-lg shadow-lg border-l-8 {% if job.status == 'Open' %}border-green-500{% else %}border-red-500{% endif %}">
-                            <h2 class="text-2xl font-semibold text-gray-800">{{ job.title }}</h2>
-                            <p class="text-gray-600 mt-2">{{ job.description }}</p>
-                            <p class="mt-2"><strong>Salary:</strong> ₹{{ job.salary }}</p>
-                            <p class="mt-1"><strong>Location:</strong> {{ job.location }}</p>
-                            <p class="mt-1"><strong>Status:</strong> 
-                                <span class="{% if job.status == 'Open' %}text-green-600{% else %}text-red-600{% endif %}">{{ job.status }}</span>
-                            </p>
-                        </div>
-                    </a>
-                    
-                {% endif %}
-
-            {% endfor %}
-
+                {% for job in jobs %}
+                    {% if job.type == "external" %}
+                        <a href="{% url 'hub:job-detail' job.id %}" class="job-item">
+                            <div class="bg-white p-6 rounded-lg shadow-lg border-l-8 {% if job.status == 'Open' %}border-green-500{% else %}border-red-500{% endif %}">
+                                <h2 class="text-2xl font-semibold text-gray-800">{{ job.title }}</h2>
+                                <p class="text-gray-600 mt-2">{{ job.description }}</p>
+                                <p class="mt-2"><strong>Salary:</strong> ₹{{ job.salary }}</p>
+                                <p class="mt-1"><strong>Location:</strong> {{ job.location }}</p>
+                                <p class="mt-1"><strong>Status:</strong> 
+                                    <span class="{% if job.status == 'Open' %}text-green-600{% else %}text-red-600{% endif %}">{{ job.status }}</span>
+                                </p>
+                            </div>
+                        </a>
+                    {% endif %}
+                {% endfor %}
             {% elif user.last_name == "HR" %}
-            {% for job in jobs %}
-                
-                    <a href="{% url 'hub:job-detail' job.id %}">
+                {% for job in jobs %}
+                    <a href="{% url 'hub:job-detail' job.id %}" class="job-item">
                         <div class="bg-white p-6 rounded-lg shadow-lg border-l-8 {% if job.status == 'Open' %}border-green-500{% else %}border-red-500{% endif %}">
                             <h2 class="text-2xl font-semibold text-gray-800">{{ job.title }}</h2>
                             <p class="text-gray-600 mt-2">{{ job.description }}</p>
@@ -70,30 +59,15 @@
                             </p>
                         </div>
                     </a>
-               
-
-            {% endfor %}
-
-
-
-
-
+                {% endfor %}
             {% endif %}
-
-
-
-
-
-
-
         </div>
-        
     </div>
 
     <script>
         function searchJobs() {
             let query = document.getElementById("searchInput").value.toLowerCase();
-            let jobs = document.querySelectorAll("#jobsContainer > div");
+            let jobs = document.querySelectorAll("#jobsContainer > a");
 
             jobs.forEach(job => {
                 let title = job.querySelector("h2").innerText.toLowerCase();
@@ -101,6 +75,5 @@
             });
         }
     </script>
-
 </body>
 {% endblock %}
