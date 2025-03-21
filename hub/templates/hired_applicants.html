@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'nav.html' %}
+
+<section class="min-h-screen bg-gray-100 p-6">
+  <h1 class="text-3xl font-bold text-center text-gray-800 mb-8">🎉 Hired Applicants</h1>
+  <div class="container mx-auto">
+    {% if applications %}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for application in applications %}
+        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+          <h2 class="text-xl font-semibold text-gray-700">👤 {{ application.applicant.user.username }}</h2>
+          <p class="text-gray-500">📌 Job Title: {{ application.job.title }}</p>
+          <p class="text-gray-500">📧 Email: {{ application.email }}</p>
+          <p class="text-gray-500">📞 Phone: {{ application.phone }}</p>
+          <p class="text-gray-500">📍 Location: {{ application.city }}, {{ application.state }}, {{ application.country }}</p>
+          <a href="{{ application.linkedin_url }}" target="_blank" class="text-blue-500 hover:underline">🔗 LinkedIn</a>
+          <a href="{{ application.github_url }}" target="_blank" class="text-black ml-4 hover:underline">💻 GitHub</a>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-center text-gray-500">No applicants are marked as Hired.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

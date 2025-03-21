@@ -23,6 +23,11 @@
             </p>
         </div>
 
+
+
+      
+
+
         <!-- Resume & Links -->
         <div class="mt-6">
             <h2 class="text-xl font-semibold text-gray-800 mb-2">📂 Documents & Links</h2>
@@ -44,6 +49,30 @@
                 {% endif %}
             </div>
         </div>
+
+        {% if application.status == 'Interview Scheduled' %}
+        <div class="bg-gray-50 p-5 mt-4 border-l-4 border-blue-500 rounded-lg">
+          <h3 class="text-lg font-semibold text-blue-600">🗓️ Interview Details</h3>
+      
+          <form method="post" action="{% url 'hub:update_interview' application.id %}">
+            {% csrf_token %}
+            
+            <label class="text-gray-700">📅 Interview Date:</label>
+            <input type="datetime-local" name="interview_date" value="{{ application.interview_date|date:'Y-m-d\\TH:i' }}" class="w-full p-2 border rounded mb-4" required>
+            
+            <label class="text-gray-700">📍 Location:</label>
+            <input type="text" name="interview_location" value="{{ application.interview_location }}" class="w-full p-2 border rounded mb-4" required>
+      
+            <label class="text-gray-700">📝 Notes:</label>
+            <textarea name="interview_notes" class="w-full p-2 border rounded mb-4">{{ application.interview_notes }}</textarea>
+      
+            <label class="text-gray-700">💬 Feedback:</label>
+            <textarea name="feedback" class="w-full p-2 border rounded mb-4">{{ application.feedback }}</textarea>
+      
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white font-bold rounded-lg shadow hover:bg-blue-700 transition">Save Changes</button>
+          </form>
+        </div>
+      {% endif %}
 
         <!-- Work History -->
         {% if application.work_history %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<body class="bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500">
+  {% include 'nav.html' %}
+
+  <section class="min-h-screen flex justify-center items-center p-6">
+    <div class="bg-white p-6 shadow-lg rounded-lg max-w-5xl w-full">
+      <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">❌ Rejected Applicants</h1>
+
+      {% if applications %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {% for application in applications %}
+          <div class="bg-white p-5 shadow-md rounded-lg border-l-4 border-red-500 hover:shadow-xl transition duration-300">
+            <h2 class="text-xl font-semibold text-gray-800">👤 {{ application.applicant.user.username }}</h2>
+            <p class="text-gray-600">📌 Applied for: <span class="font-medium">{{ application.job.title }}</span></p>
+            <p class="text-gray-600">📅 Applied on: <span class="font-medium">{{ application.applied_date|date:"F d, Y" }}</span></p>
+            <p class="text-gray-600">📍 Location: <span class="font-medium">{{ application.city }}, {{ application.state }}, {{ application.country }}</span></p>
+            <p class="text-gray-600">📧 Email: <span class="font-medium">{{ application.email }}</span></p>
+            <p class="text-gray-600">📞 Phone: <span class="font-medium">{{ application.phone }}</span></p>
+
+            {% if application.resume %}
+            <a href="{{ application.resume.url }}" target="_blank" class="mt-4 px-4 py-2 bg-red-600 text-white font-bold rounded-lg shadow hover:bg-red-700 transition">📂 View Resume</a>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="text-center text-white text-xl">No Rejected Applicants Found.</p>
+      {% endif %}
+    </div>
+  </section>
+</body>
+{% endblock %}

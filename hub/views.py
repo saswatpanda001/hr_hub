@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect
 from allauth.account.views import LoginView
 from django.views.generic import UpdateView,CreateView, DetailView,ListView
 from django.contrib.auth.decorators import login_required
-from hub.models import UserProfile, Job, Notifications, Qualifications, Skills, Application
-from hub.forms import UserProfileForm
+from hub.models import UserProfile, Job, Notifications, Qualifications, Skills, Application, Interview
+from hub.forms import UserProfileForm, InterviewForm
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from hub.models import Job, Notifications
@@ -14,7 +14,9 @@ import random
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
-
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Application
+from django.contrib import messages
 
 @login_required
 def applications(request, id):
@@ -46,14 +48,87 @@ def my_applications(request):
     return render(request, "my_applications.html",data)
 
     
-
 @login_required
 def shortlisted(request):
-
     applications = Application.objects.filter(status="Shortlisted")
-    print(applications)
-    data = {"applications":applications}
-    return render(request, "my_applications.html",data)
+    choices = Application.choices  # Correcting the choices reference
+    return render(request, "my_applications.html", {"applications": applications, "choices": choices})
+
+@login_required
+def rejected_applicants(request):
+    applications = Application.objects.filter(status="Rejected")
+    return render(request, "rejected_applicants.html", {"applications": applications})
+
+
+@login_required
+def update_status(request, application_id):
+    if request.method == "POST":
+        new_status = request.POST.get("status")
+        application = get_object_or_404(Application, id=application_id)
+        application.status = new_status
+        application.save()
+
+        if new_status == "Hired":
+            return redirect("hub:hired_applicants")
+        elif new_status == "Rejected":
+            return redirect("hub:rejected_applicants")
+        elif new_status == "Interview Scheduled":
+            return redirect("hub:interview_scheduled_applicants")
+        else:
+            return redirect("hub:shortlisted")
+
+def hired_applicants(request):
+    applications = Application.objects.filter(status="Hired")
+    return render(request, 'hired_applicants.html', {'applications': applications})
+
+@login_required
+def interview_scheduled_applicants(request):
+    applications = Application.objects.filter(status="Interview Scheduled")
+    return render(request, "interview_scheduled_applicants.html", {"applications": applications})
+
+
+def update_interview(request, application_id):
+    application = get_object_or_404(Application, id=application_id)
+
+    if request.method == 'POST':
+        interview_date = request.POST.get('interview_date')
+        interview_location = request.POST.get('interview_location')
+        interview_notes = request.POST.get('interview_notes')
+        feedback = request.POST.get('feedback')
+
+        # Update application with form data
+        application.interview_date = interview_date
+        application.interview_location = interview_location
+        application.interview_notes = interview_notes
+        application.feedback = feedback
+        application.save()
+
+        return redirect('hub:application_details', application.id)
+    
+    return render(request, 'hub/application_details.html', {'application': application})
+
+
+
+
+
+
+@login_required
+def schedule_interview(request, application_id):
+    application = get_object_or_404(Application, id=application_id)
+    
+    if request.method == 'POST':
+        form = InterviewForm(request.POST)
+        if form.is_valid():
+            interview = form.save(commit=False)
+            interview.application = application
+            interview.save()
+            application.status = 'Interview Scheduled'
+            application.save()
+            return redirect('shortlisted')
+    else:
+        form = InterviewForm()
+
+    return render(request, 'schedule_interview.html', {'form': form, 'application': application})
 
 
 
@@ -318,4 +393,5 @@ def shortlist_application(request,job_id,app_id):
     application.save()
     messages.success(request, "Application has been shortlisted.")
     return redirect('hub:applications', job_id)
+
 

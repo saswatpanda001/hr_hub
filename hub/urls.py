@@ -31,9 +31,24 @@ urlpatterns = [
     path("applications/job/<int:id>", views.applications, name="applications"),
     path("applications/<int:id>", views.application_details, name="application_details"),
     path("applications/user", views.my_applications, name="my_applications"),
+    path('<int:application_id>/update_interview/', views.update_interview, name='update_interview'),
+    
     path("shortlisted/", views.shortlisted, name="shortlisted"),
+    path('update_status/<int:application_id>/', views.update_status, name='update_status'),
+
+    path('hired/', views.hired_applicants, name='hired_applicants'),
+    path('rejected/', views.rejected_applicants, name='rejected_applicants'),
+    path('interview_scheduled/', views.interview_scheduled_applicants, name='interview_scheduled_applicants'),
+
+
+
+    path('schedule_interview/<int:application_id>/', views.schedule_interview, name='schedule_interview'),
+
+
 
     path('applications/<int:job_id>/<int:app_id>/reject/', views.reject_application, name='reject_application'),
     path('applications/<int:job_id>/<int:app_id>/shortlist/', views.shortlist_application, name='shortlist_application'),
+
+
 ]
 

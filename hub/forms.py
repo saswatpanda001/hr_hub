@@ -1,5 +1,5 @@
 from django import forms
-from hub.models import UserProfile, Job, Notifications
+from hub.models import UserProfile, Job, Notifications, Interview
 
 
 class NotificationForm(forms.ModelForm):
@@ -31,3 +31,11 @@ class JobForm(forms.ModelForm):
             "qualifications": forms.SelectMultiple(attrs={"class": "border rounded-lg p-2 w-full"}),
             "skills": forms.SelectMultiple(attrs={"class": "border rounded-lg p-2 w-full"}),
         }
+
+
+class InterviewForm(forms.ModelForm):
+    class Meta:
+        model = Interview
+        fields = ['interview_date', 'interview_location', 'interview_notes']
+
+

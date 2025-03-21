@@ -1,67 +1,68 @@
-<nav class="bg-white text-black shadow-lg">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16 items-center">
-        
-        <!-- Logo -->
-        <a href="{% url 'hub:dashboard_redirect' %}" class="text-black text-2xl font-bold">RecruitEase</a>
-  
-        <!-- Navigation Links -->
-        <div class="hidden md:flex space-x-6">
+<nav class="bg-white shadow-lg">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16 items-center">
 
-          <a href="{% url 'hub:profile' %}" class="text-black hover:text-blue-800 transition">Profile</a>
-          <a href="{% url 'hub:jobs' %}" class="text-black hover:text-blue-800 transition">Jobs</a>
-        
-          {% if user.last_name == "HR" %}
-          <a href="{% url 'hub:job-create' %}" class="text-black hover:text-blue-800 transition">Create Job</a>
-          <a href="{% url 'hub:shortlisted' %}" class="text-black hover:text-blue-800 transition">Shortlisted</a>
-          
-          {% endif %}
+      <!-- Logo -->
+      <a href="{% url 'hub:dashboard_redirect' %}" class="text-2xl font-bold text-blue-600">RecruitEase</a>
 
-          {% if user.last_name == "Employee"  or user.last_name == "HR"%}
-          <a href="{% url 'hub:notifications' %}" class="text-black hover:text-blue-800 transition">Notifications</a>
-          {% endif %}
+      <!-- Desktop Navigation Links -->
+      <div class="hidden md:flex space-x-6">
+        <a href="{% url 'hub:profile' %}" class="hover:text-blue-800">Profile</a>
+        <a href="{% url 'hub:jobs' %}" class="hover:text-blue-800">Jobs</a>
 
-         
-          <a href="{% url 'hub:my_applications' %}" class="text-black hover:text-blue-800 transition">My Applications</a>
-         
-        
-        </div>
-        {% if user.is_authenticated %}
-        <div class="hidden md:block">
-            <a href="/accounts/login" class="bg-white text-blue-600 px-4 py-3 mx-3 rounded-lg shadow-md hover:bg-gray-200 transition">Hi {{user.username}}</a>
-            <a href="/accounts/logout" class="bg-white text-blue-600 px-4 py-3 mx-3 rounded-lg shadow-md hover:bg-gray-200 transition">Logout</a>
-          </div>
-        {%else%}
-        <div class="hidden md:block">
-            <a href="/accounts/login" class="bg-black text-blue-600 px-4 py-2 mx-3 rounded-lg shadow-md hover:bg-gray-200 transition">Sign Up</a>
-            <a href="{% url 'hub:login_dashboard' %}" class="bg-white text-blue-600 px-4 py-2 mx-3 rounded-lg shadow-md hover:bg-gray-200 transition">Login</a>
-          </div>
+        {% if user.last_name == "HR" %}
+          <a href="{% url 'hub:job-create' %}" class="hover:text-blue-800">Create Job</a>
+          <a href="{% url 'hub:shortlisted' %}" class="hover:text-blue-800">Shortlisted</a>
+          <a href="{% url 'hub:hired_applicants' %}" class="text-green-600 hover:text-green-800">Hired</a>
+          <a href="{% url 'hub:rejected_applicants' %}" class="text-red-600 hover:text-red-800">Rejected</a>
+          <a href="{% url 'hub:interview_scheduled_applicants' %}" class="text-yellow-600 hover:text-yellow-800">Interview Scheduled</a>
         {% endif %}
 
-        <!-- Mobile Menu Button -->
-        <button id="menu-toggle" class="md:hidden text-black focus:outline-none">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-          </svg>
-        </button>
+        {% if user.last_name == "Employee" or user.last_name == "HR" %}
+          <a href="{% url 'hub:notifications' %}" class="hover:text-blue-800">Notifications</a>
+        {% endif %}
+
+        <a href="{% url 'hub:my_applications' %}" class="hover:text-blue-800">My Applications</a>
       </div>
+
+      <!-- Authentication Buttons -->
+      <div class="hidden md:block">
+        {% if user.is_authenticated %}
+          <span class="mr-4">Hi, <span class="font-bold">{{ user.username }}</span></span>
+          <a href="/accounts/logout" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Logout</a>
+        {% else %}
+          <a href="/accounts/login" class="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800">Sign Up</a>
+          <a href="{% url 'hub:login_dashboard' %}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 ml-3">Login</a>
+        {% endif %}
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button id="menu-toggle" class="md:hidden focus:outline-none">
+        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
     </div>
-  
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-blue-700">
-      <a href="#" class="block px-4 py-2 text-black hover:bg-blue-800">Home</a>
-      <a href="#" class="block px-4 py-2 text-black hover:bg-blue-800">Jobs</a>
-      <a href="#" class="block px-4 py-2 text-black hover:bg-blue-800">About</a>
-      <a href="#" class="block px-4 py-2 text-black hover:bg-blue-800">Contact</a>
-      <a href="#" class="block px-4 py-2 text-black hover:bg-blue-800">Sign Up</a>
-    </div>
-  
-    <script>
-      const menuToggle = document.getElementById('menu-toggle');
-      const mobileMenu = document.getElementById('mobile-menu');
-      
-      menuToggle.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-      });
-    </script>
-  </nav>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden">
+    <a href="{% url 'hub:profile' %}" class="block px-4 py-2 hover:bg-gray-200">Profile</a>
+    <a href="{% url 'hub:jobs' %}" class="block px-4 py-2 hover:bg-gray-200">Jobs</a>
+    {% if user.is_authenticated %}
+      <a href="/accounts/logout" class="block px-4 py-2 hover:bg-red-500 text-white">Logout</a>
+    {% else %}
+      <a href="/accounts/login" class="block px-4 py-2 hover:bg-gray-200">Sign Up</a>
+      <a href="{% url 'hub:login_dashboard' %}" class="block px-4 py-2 hover:bg-gray-200">Login</a>
+    {% endif %}
+  </div>
+</nav>
+
+<script>
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  menuToggle.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+</script>

@@ -16,7 +16,7 @@
         <div id="jobsContainer" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {% if user.last_name == "Employee" %}
                 {% for job in jobs %}
-                    {% if job.type == "internal" %}
+                    {% if job.type == "internal" or job.type == "combined" %}
                         <a href="{% url 'hub:job-detail' job.id %}" class="job-item">
                             <div class="bg-white p-6 rounded-lg shadow-lg border-l-8 {% if job.status == 'Open' %}border-green-500{% else %}border-red-500{% endif %}">
                                 <h2 class="text-2xl font-semibold text-gray-800">{{ job.title }}</h2>
@@ -32,7 +32,7 @@
                 {% endfor %}
             {% elif user.last_name == "Candidate" %}
                 {% for job in jobs %}
-                    {% if job.type == "external" %}
+                    {% if job.type == "external" or job.type == "combined" %}
                         <a href="{% url 'hub:job-detail' job.id %}" class="job-item">
                             <div class="bg-white p-6 rounded-lg shadow-lg border-l-8 {% if job.status == 'Open' %}border-green-500{% else %}border-red-500{% endif %}">
                                 <h2 class="text-2xl font-semibold text-gray-800">{{ job.title }}</h2>
